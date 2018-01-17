@@ -1,6 +1,7 @@
 package org.packt.swarm.petstore.proxy;
 
 import org.packt.swarm.petstore.pricing.api.Price;
+import org.packt.swarm.petstore.security.BearerTokenFilter;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -28,6 +29,7 @@ public class PricingProxy {
     public Price getPrice(String itemId, String token){
         String auth = "bearer "+token;
         Client client = ClientBuilder.newClient();
+        client.register(new BearerTokenFilter());
         WebTarget target = client.target(targetPath + "/price/" + itemId);
         if(token != null) {
             return target.request(MediaType.APPLICATION_JSON)
