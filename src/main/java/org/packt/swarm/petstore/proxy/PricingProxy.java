@@ -33,9 +33,11 @@ public class PricingProxy {
     }
 
     public Price getPrice(String itemId, String token){
-        KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
+        if(securityContext!=null) {
+            KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
 
-        System.out.println("A W SRODKU PROXACZA TO "+keycloakPrincipal);
+            System.out.println("A W SRODKU PROXACZA TO " + keycloakPrincipal);
+        }
         String auth = "bearer "+token;
         Client client = ClientBuilder.newClient();
         client.register(new BearerTokenFilter());
