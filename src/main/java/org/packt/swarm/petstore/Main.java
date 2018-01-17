@@ -17,10 +17,6 @@ public class Main {
     }
 
     private static void secureDeployment(final Archive<?> deployment){
-        deployment.as(Secured.class)
-                .protect( "/catalog/item" )
-                .withMethod( "GET" )
-                .withRole( "customer" );
 
         deployment.as(Secured.class)
                 .protect( "/cart/item" )
