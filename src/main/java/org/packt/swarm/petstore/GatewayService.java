@@ -40,15 +40,15 @@ public class GatewayService {
         List<CatalogItemView> pets = new ArrayList<>();
         for(CatalogItem item: catalogProxy.getAllItems()) {
             Price price = pricingProxy.getPrice(item.getItemId(), token);
-
-            CatalogItemView pet = new CatalogItemView();
-            pet.setItemId(item.getItemId());
-            pet.setName(item.getName());
-            pet.setPrice(price.getPrice());
-            pet.setQuantity(item.getQuantity());
-            pet.setDescription(item.getDescription());
-
-            pets.add(pet);
+//
+//            CatalogItemView pet = new CatalogItemView();
+//            pet.setItemId(item.getItemId());
+//            pet.setName(item.getName());
+//            pet.setPrice(price.getPrice());
+//            pet.setQuantity(item.getQuantity());
+//            pet.setDescription(item.getDescription());
+//
+//            pets.add(pet);
         }
         return pets;
     }
