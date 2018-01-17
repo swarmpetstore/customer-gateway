@@ -1,6 +1,6 @@
 package org.packt.swarm.petstore.proxy;
 
-import org.packt.swarm.petstore.api.Price;
+import org.packt.swarm.petstore.pricing.api.Price;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;

@@ -2,7 +2,7 @@ package org.packt.swarm.petstore;
 
 import org.packt.swarm.petstore.api.CartItemView;
 import org.packt.swarm.petstore.api.CatalogItemView;
-import org.packt.swarm.petstore.api.Price;
+import org.packt.swarm.petstore.pricing.api.Price;
 import org.packt.swarm.petstore.cart.api.CartItem;
 import org.packt.swarm.petstore.catalog.api.CatalogItem;
 import org.packt.swarm.petstore.proxy.CartProxy;
