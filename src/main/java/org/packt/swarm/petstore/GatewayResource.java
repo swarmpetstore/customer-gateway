@@ -42,6 +42,7 @@ public class GatewayResource {
         List<CatalogItemView> result = gatewayService.getAvailableItems(token);
         return Response.ok(result).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.serverError().build();
         }
     }
