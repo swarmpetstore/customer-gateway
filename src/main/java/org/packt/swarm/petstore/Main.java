@@ -11,7 +11,7 @@ public class Main {
         swarm.start();
 
         Archive<?> deployment = swarm.createDefaultDeployment();
-        secureDeployment(deployment);
+        //secureDeployment(deployment);
 
         swarm.deploy(deployment);
     }
