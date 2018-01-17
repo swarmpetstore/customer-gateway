@@ -1,5 +1,6 @@
 package org.packt.swarm.petstore.proxy;
 
+import org.keycloak.KeycloakPrincipal;
 import org.packt.swarm.petstore.pricing.api.Price;
 import org.packt.swarm.petstore.security.BearerTokenFilter;
 
@@ -8,8 +9,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 
 @ApplicationScoped
 public class PricingProxy {
@@ -20,6 +23,9 @@ public class PricingProxy {
 
     private String targetPath;
 
+    @Context
+    SecurityContext securityContext;
+
     @PostConstruct
     public void init() {
         String hostname = SERVICE_NAME + "." + NAMESPACE + ".svc";
@@ -27,6 +33,9 @@ public class PricingProxy {
     }
 
     public Price getPrice(String itemId, String token){
+        KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
+
+        System.out.println("A W SRODKU PROXACZA TO "+keycloakPrincipal);
         String auth = "bearer "+token;
         Client client = ClientBuilder.newClient();
         client.register(new BearerTokenFilter());

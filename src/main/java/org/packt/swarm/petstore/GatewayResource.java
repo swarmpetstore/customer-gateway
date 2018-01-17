@@ -33,6 +33,8 @@ public class GatewayResource {
 
             KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
 
+            System.out.println("TUTAJ NATOMIAST PRINCIPAL TO "+keycloakPrincipal);
+
         String token = null;
         if(keycloakPrincipal != null && keycloakPrincipal.getKeycloakSecurityContext()!=null) {
             token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
