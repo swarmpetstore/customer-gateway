@@ -11,20 +11,15 @@ public class Main {
         swarm.start();
 
         Archive<?> deployment = swarm.createDefaultDeployment();
-        //secureDeployment(deployment);
+        secureDeployment(deployment);
 
         swarm.deploy(deployment);
     }
 
     private static void secureDeployment(final Archive<?> deployment){
-
         deployment.as(Secured.class)
                 .protect( "/cart/item" )
                 .withMethod( "GET,POST,DELETE" )
                 .withRole( "customer" );
-
-
-
-
     }
 }
