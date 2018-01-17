@@ -25,10 +25,10 @@ public class PricingProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public Price getPrice(String name, String token){
+    public Price getPrice(String itemId, String token){
         String auth = "bearer "+token;
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(targetPath + "/price/" + name);
+        WebTarget target = client.target(targetPath + "/price/" + itemId);
         if(token != null) {
             return target.request(MediaType.APPLICATION_JSON)
                     .header(HttpHeaders.AUTHORIZATION, auth)

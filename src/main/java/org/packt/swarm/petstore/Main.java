@@ -7,19 +7,28 @@ import org.wildfly.swarm.keycloak.Secured;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
-
-
         Swarm swarm = new Swarm();
         swarm.start();
 
         Archive<?> deployment = swarm.createDefaultDeployment();
-
-        deployment.as(Secured.class)
-                .protect( "/pet" )
-                .withMethod( "GET" )
-                .withRole( "pies" );
+        secureDeployment(deployment);
 
         swarm.deploy(deployment);
+    }
+
+    private static void secureDeployment(final Archive<?> deployment){
+        deployment.as(Secured.class)
+                .protect( "/catalog/item" )
+                .withMethod( "GET" )
+                .withRole( "customer" );
+
+        deployment.as(Secured.class)
+                .protect( "/cart/item" )
+                .withMethod( "GET,POST,DELETE" )
+                .withRole( "customer" );
+
+
+
+
     }
 }

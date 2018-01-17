@@ -20,13 +20,13 @@ import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
 @Path("/")
-public class PetstoreResource {
+public class GatewayResource {
 
     @Inject
-    private PetstoreService petstoreService;
+    private GatewayService gatewayService;
 
     @GET
-    @Path("/pet")
+    @Path("/catalog/item")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAvailablePets(@Context SecurityContext securityContext) {
         try {
@@ -37,11 +37,9 @@ public class PetstoreResource {
         if(keycloakPrincipal != null && keycloakPrincipal.getKeycloakSecurityContext()!=null) {
             token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
         }
-        List<CatalogItemView> result = petstoreService.getAvailablePets(token);
+        List<CatalogItemView> result = gatewayService.getAvailableItems(token);
         return Response.ok(result).build();
         } catch (Exception e) {
-            System.out.println("WYCHRZANILO SIE");
-            e.printStackTrace();
             return Response.serverError().build();
         }
     }
@@ -51,11 +49,9 @@ public class PetstoreResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addToCart(@PathParam("customerId") String customerId, CartItem item, @QueryParam("additive") boolean additive) {
         try {
-            petstoreService.addToCart(customerId, item, additive);
+            gatewayService.addToCart(customerId, item, additive);
             return Response.ok().build();
         } catch (Exception e) {
-            System.out.println("WYCHRZANILO SIE");
-            e.printStackTrace();
             return Response.serverError().build();
         }
     }
@@ -65,7 +61,7 @@ public class PetstoreResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCart(@PathParam("customerId") String customerId) {
         try {
-            List<CartItemView> cart = petstoreService.getCart(customerId);
+            List<CartItemView> cart = gatewayService.getCart(customerId);
             return Response.ok(cart).build();
         } catch (Exception e) {
             return Response.serverError().build();
@@ -77,7 +73,7 @@ public class PetstoreResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteFromCart(@PathParam("customerId") String customerId, @PathParam("itemId") String itemId) {
         try {
-            petstoreService.deleteFromCart(customerId, itemId);
+            gatewayService.deleteFromCart(customerId, itemId);
             return Response.ok().build();
         } catch (Exception e) {
             return Response.serverError().build();
@@ -86,22 +82,11 @@ public class PetstoreResource {
 
 
     @POST
-    @Path("buy")
+    @Path("payment")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response buy(@QueryParam("customerId") int customerId, @Context  SecurityContext securityContext){
+    public Response payment(@QueryParam("customerId") int customerId, @Context  SecurityContext securityContext){
         try {
-            System.out.println("PRINCIPAL TO "+securityContext.getUserPrincipal().getName());
-            if(securityContext.isUserInRole("client")){
-                System.out.println("PRINCIPAL JEST KLIENTEM");
-            } else {
-                System.out.println("KLIENTEM KWA TO NIE JEST");
-            }
-            if(securityContext.isUserInRole("admin")){
-                System.out.println("PRINCIPAL JEST ADMINEM");
-            } else {
-                System.out.println("ADMINEM KWA TO NIE JEST");
-            }
-            String paymentUUID = petstoreService.buy(customerId);
+            String paymentUUID = gatewayService.buy(customerId);
             return Response.ok(paymentUUID).build();
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).build();

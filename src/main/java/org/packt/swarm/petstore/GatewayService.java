@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class PetstoreService {
+public class GatewayService {
 
     @Inject
     private CatalogProxy catalogProxy;
@@ -36,12 +36,10 @@ public class PetstoreService {
 
 
 
-    public List<CatalogItemView> getAvailablePets(String token) {
-        System.out.println("IDZIE GET AVAILABLE PETS");
+    public List<CatalogItemView> getAvailableItems(String token) {
         List<CatalogItemView> pets = new ArrayList<>();
         for(CatalogItem item: catalogProxy.getAllItems()) {
-            System.out.println("ZARAZ POJDZIE CALL DO PROXY");
-            Price price = pricingProxy.getPrice(item.getName(), token);
+            Price price = pricingProxy.getPrice(item.getItemId(), token);
 
             CatalogItemView pet = new CatalogItemView();
             pet.setItemId(item.getItemId());
