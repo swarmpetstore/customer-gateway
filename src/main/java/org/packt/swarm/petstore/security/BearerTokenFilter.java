@@ -29,7 +29,7 @@ public class BearerTokenFilter implements ClientRequestFilter {
             String token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
             if(token != null) {
                 requestContext.getHeaders().add(HttpHeaders.AUTHORIZATION, BEARER + " " + token);
-                System.out.println("PRZESLALEM DALEJ TOKENA!!!");
+                System.out.println("PRZESLALEM DALEJ TOKENA "+token);
             }
         }
     }
