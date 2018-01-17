@@ -39,7 +39,7 @@ public class GatewayResource {
         if(keycloakPrincipal != null && keycloakPrincipal.getKeycloakSecurityContext()!=null) {
             token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
         }
-        List<CatalogItemView> result = gatewayService.getAvailableItems(token);
+        List<CatalogItemView> result = gatewayService.getAvailableItems(null);
         return Response.ok(result).build();
         } catch (Exception e) {
             e.printStackTrace();

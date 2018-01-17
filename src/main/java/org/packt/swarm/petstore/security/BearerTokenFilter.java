@@ -24,12 +24,10 @@ public class BearerTokenFilter implements ClientRequestFilter {
     @Override
     public void filter(ClientRequestContext requestContext) throws IOException {
         KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
-        System.out.println("KEYCLOAK PRINCIPAL TO "+keycloakPrincipal);
         if(keycloakPrincipal != null && keycloakPrincipal.getKeycloakSecurityContext()!=null) {
             String token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
             if(token != null) {
                 requestContext.getHeaders().add(HttpHeaders.AUTHORIZATION, BEARER + " " + token);
-                System.out.println("PRZESLALEM DALEJ TOKENA "+token);
             }
         }
     }
