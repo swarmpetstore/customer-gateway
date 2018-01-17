@@ -1,6 +1,5 @@
 {
   "realm": "petstore",
   "auth-server-url": "http://keycloak-openshift-petstore.192.168.42.167.nip.io/auth",
-  "ssl-required": "none",
   "resource": "petstore-client"
 }
