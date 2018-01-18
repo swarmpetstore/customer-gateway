@@ -1,6 +1,7 @@
 package org.packt.swarm.petstore.proxy;
 
 import org.packt.swarm.petstore.cart.api.CartItem;
+import org.packt.swarm.petstore.security.AuthTokenPropagationFilter;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -28,19 +29,22 @@ public class CartProxy {
     }
 
     public List<org.packt.swarm.petstore.cart.api.CartItem> getCart(String customerId){
-        Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(targetPath+"/cart/"+customerId);
-        return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(org.packt.swarm.petstore.cart.api.CartItem[].class));
+            Client client = ClientBuilder.newClient();
+            client.register(new AuthTokenPropagationFilter());
+            WebTarget target = client.target(targetPath + "/cart/" + customerId);
+            return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(org.packt.swarm.petstore.cart.api.CartItem[].class));
     }
 
-    public void addToCart(String customerId, CartItem item, boolean additive){
+    public void addToCart(String customerId, CartItem item, boolean additive) {
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(targetPath+"/cart/"+customerId+"?additive="+additive);
+        client.register(new AuthTokenPropagationFilter());
+        WebTarget target = client.target(targetPath + "/cart/" + customerId + "?additive=" + additive);
         Arrays.asList(target.request(MediaType.APPLICATION_JSON).post(Entity.json(item), Void.class));
     }
 
     public void deleteFromCart(String customerId, String itemId){
         Client client = ClientBuilder.newClient();
+        client.register(new AuthTokenPropagationFilter());
         WebTarget target = client.target(targetPath+"/cart/"+customerId+"/"+itemId);
         target.request(MediaType.APPLICATION_JSON).delete();
     }
