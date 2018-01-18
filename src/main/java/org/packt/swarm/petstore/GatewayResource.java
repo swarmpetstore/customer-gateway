@@ -37,18 +37,6 @@ public class GatewayResource {
         }
     }
 
-    @POST
-    @Path("/cart/{customerId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addToCart(@PathParam("customerId") String customerId, CartItem item, @QueryParam("additive") boolean additive) {
-        try {
-            gatewayService.addToCart(customerId, item, additive);
-            return Response.ok().build();
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
-    }
-
     @GET
     @Path("/cart/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -56,6 +44,19 @@ public class GatewayResource {
         try {
             List<CartItemView> cart = gatewayService.getCart(customerId);
             return Response.ok(cart).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
+    }
+
+    @POST
+    @Path("/cart/{customerId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addToCart(@PathParam("customerId") String customerId, CartItem item, @QueryParam("additive") boolean additive) {
+        try {
+            System.out.println("IDZIE ADD TO CART");
+            gatewayService.addToCart(customerId, item, additive);
+            return Response.ok().build();
         } catch (Exception e) {
             return Response.serverError().build();
         }
