@@ -42,6 +42,7 @@ public class GatewayResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCart(@PathParam("customerId") String customerId) {
         try {
+            System.out.println("IDZIE GET CART");
             List<CartItemView> cart = gatewayService.getCart(customerId);
             return Response.ok(cart).build();
         } catch (Exception e) {
