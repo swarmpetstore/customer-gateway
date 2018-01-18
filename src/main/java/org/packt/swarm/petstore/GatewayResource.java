@@ -1,6 +1,5 @@
 package org.packt.swarm.petstore;
 
-import org.keycloak.KeycloakPrincipal;
 import org.packt.swarm.petstore.api.CartItemView;
 import org.packt.swarm.petstore.api.CatalogItemView;
 import org.packt.swarm.petstore.cart.api.CartItem;
@@ -28,19 +27,10 @@ public class GatewayResource {
     @GET
     @Path("/catalog/item")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAvailablePets(@Context SecurityContext securityContext) {
+    public Response getItems() {
         try {
-
-            KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
-
-            System.out.println("TUTAJ NATOMIAST PRINCIPAL TO "+keycloakPrincipal);
-
-        String token = null;
-        if(keycloakPrincipal != null && keycloakPrincipal.getKeycloakSecurityContext()!=null) {
-            token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
-        }
-        List<CatalogItemView> result = gatewayService.getAvailableItems(null);
-        return Response.ok(result).build();
+            List<CatalogItemView> result = gatewayService.getItems();
+            return Response.ok(result).build();
         } catch (Exception e) {
             e.printStackTrace();
             return Response.serverError().build();

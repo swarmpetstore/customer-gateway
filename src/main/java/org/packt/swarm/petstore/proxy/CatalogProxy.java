@@ -1,7 +1,7 @@
 package org.packt.swarm.petstore.proxy;
 
 import org.packt.swarm.petstore.catalog.api.CatalogItem;
-import org.packt.swarm.petstore.security.BearerTokenFilter;
+import org.packt.swarm.petstore.security.AuthTokenPropagationFilter;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -28,9 +28,8 @@ public class CatalogProxy {
     }
 
     public List<CatalogItem> getAllItems(){
-        System.out.println("IDZIE KURDE");
         Client client = ClientBuilder.newClient();
-        client.register(new BearerTokenFilter());
+        client.register(new AuthTokenPropagationFilter());
         WebTarget target = client.target(targetPath+"/item");
         return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(CatalogItem[].class));
     }

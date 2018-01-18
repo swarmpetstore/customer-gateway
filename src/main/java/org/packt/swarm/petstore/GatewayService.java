@@ -36,10 +36,10 @@ public class GatewayService {
 
 
 
-    public List<CatalogItemView> getAvailableItems(String token) {
+    public List<CatalogItemView> getItems() {
         List<CatalogItemView> pets = new ArrayList<>();
         for(CatalogItem item: catalogProxy.getAllItems()) {
-            Price price = pricingProxy.getPrice(item.getItemId(), token);
+            Price price = pricingProxy.getPrice(item.getItemId());
 
             CatalogItemView pet = new CatalogItemView();
             pet.setItemId(item.getItemId());
@@ -72,7 +72,7 @@ public class GatewayService {
             CatalogItem catalogItem = catalogProxy.getItem(cartItem.getItemId());
             result.setName(catalogItem.getName());
 
-            Price price = pricingProxy.getPrice(catalogItem.getName(), null);
+            Price price = pricingProxy.getPrice(catalogItem.getName());
             result.setPrice(price.getPrice());
 
             results.add(result);

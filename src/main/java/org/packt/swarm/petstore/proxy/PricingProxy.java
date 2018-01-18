@@ -1,8 +1,7 @@
 package org.packt.swarm.petstore.proxy;
 
-import org.keycloak.KeycloakPrincipal;
 import org.packt.swarm.petstore.pricing.api.Price;
-import org.packt.swarm.petstore.security.BearerTokenFilter;
+import org.packt.swarm.petstore.security.AuthTokenPropagationFilter;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -10,7 +9,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
@@ -32,23 +30,10 @@ public class PricingProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public Price getPrice(String itemId, String token){
-        if(securityContext!=null) {
-            KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
-
-            System.out.println("A W SRODKU PROXACZA TO " + keycloakPrincipal);
-        }
-        String auth = "bearer "+token;
+    public Price getPrice(String itemId){
         Client client = ClientBuilder.newClient();
-        client.register(new BearerTokenFilter());
+        client.register(new AuthTokenPropagationFilter());
         WebTarget target = client.target(targetPath + "/price/" + itemId);
-        if(token != null) {
-            return target.request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, auth)
-                    .get(Price.class);
-        } else {
-            return target.request(MediaType.APPLICATION_JSON)
-                    .get(Price.class);
-        }
+        return target.request(MediaType.APPLICATION_JSON).get(Price.class);
     }
 }
