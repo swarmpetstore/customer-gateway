@@ -72,7 +72,7 @@ public class GatewayService {
             CatalogItem catalogItem = catalogProxy.getItem(cartItem.getItemId());
             result.setName(catalogItem.getName());
 
-            Price price = pricingProxy.getPrice(catalogItem.getName());
+            Price price = pricingProxy.getPrice(catalogItem.getItemId());
             result.setPrice(price.getPrice());
 
             results.add(result);
