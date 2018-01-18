@@ -27,6 +27,7 @@ public class BearerTokenFilter implements ClientRequestFilter {
         if(keycloakPrincipal != null && keycloakPrincipal.getKeycloakSecurityContext()!=null) {
             String token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
             if(token != null) {
+                System.out.println("USTAWIAM NA "+token);
                 requestContext.getHeaders().add(HttpHeaders.AUTHORIZATION, BEARER + " " + token);
             }
         }
