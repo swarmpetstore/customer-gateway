@@ -16,7 +16,7 @@
         <version.war.plugin>2.1.1</version.war.plugin>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <version.wildfly.swarm>2017.10.1</version.wildfly.swarm>
+        <version.wildfly.swarm>2017.12.1</version.wildfly.swarm>
     </properties>
 
     <dependencyManagement>
@@ -60,6 +60,11 @@
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>keycloak</artifactId>
+            <version>${version.wildfly.swarm}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>microprofile-metrics</artifactId>
             <version>${version.wildfly.swarm}</version>
         </dependency>
         <dependency>
