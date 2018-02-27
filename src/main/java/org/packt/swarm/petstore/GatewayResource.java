@@ -28,53 +28,33 @@ public class GatewayResource {
     @Path("/catalog/item")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getItems() {
-        try {
-            List<CatalogItemView> result = gatewayService.getItems();
-            return Response.ok(result).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.serverError().build();
-        }
+        List<CatalogItemView> result = gatewayService.getItems();
+        return Response.ok(result).build();
     }
 
     @GET
     @Path("/cart/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCart(@PathParam("customerId") String customerId) {
-        try {
-            System.out.println("IDZIE GET CART");
-            List<CartItemView> cart = gatewayService.getCart(customerId);
-            return Response.ok(cart).build();
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        List<CartItemView> cart = gatewayService.getCart(customerId);
+        return Response.ok(cart).build();
     }
 
     @POST
     @Path("/cart/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response addToCart(@PathParam("customerId") String customerId, CartItem item, @QueryParam("additive") boolean additive) {
-        try {
-            System.out.println("IDZIE ADD TO CART");
-            gatewayService.addToCart(customerId, item, additive);
-            return Response.ok().build();
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        gatewayService.addToCart(customerId, item, additive);
+        return Response.ok().build();
     }
 
     @DELETE
     @Path("/cart/{customerId}/{itemId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteFromCart(@PathParam("customerId") String customerId, @PathParam("itemId") String itemId) {
-        try {
-            gatewayService.deleteFromCart(customerId, itemId);
-            return Response.ok().build();
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        gatewayService.deleteFromCart(customerId, itemId);
+        return Response.ok().build();
     }
-
 
     @POST
     @Path("payment")

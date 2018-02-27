@@ -78,8 +78,6 @@ public class GatewayService {
             results.add(result);
         }
 
-        System.out.println("JESTEM TUTAJ");
-
         return results;
 
     }
